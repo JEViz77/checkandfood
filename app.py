@@ -54,6 +54,15 @@ def gestion_restaurant(restaurant_id):
                            (new_capacity, restaurant_id))
             cursor.execute('UPDATE reserve SET estatus = %s WHERE reserve_id = %s', 
                            ('rechazada', reserve_id))
+        elif action == 'delete':
+            cursor.execute('DELETE FROM reserve WHERE reserve_id = %s', (reserve_id,))
+            #recuperar capacidad al rechazar reserva
+            new_capacity = restaurant['capacity'] + dinner_count
+            cursor.execute('UPDATE restaurant SET capacity = %s WHERE restaurant_id = %s', 
+                           (new_capacity, restaurant_id))
+            cursor.execute('UPDATE reserve SET estatus = %s WHERE reserve_id = %s', 
+                           ('rechazada', reserve_id))
+            
 
         connection.commit()
         return redirect(url_for('gestion_restaurant', restaurant_id=restaurant_id))
@@ -72,32 +81,7 @@ def gestion_restaurant(restaurant_id):
     return render_template('gestion_restaurant.html', 
                            capacity=restaurant['capacity'], 
                            reservations=reservations, 
-                           restaurant_id=restaurant_id)
-    
-#eliminar reserva
-
-@app.route('/eliminar_reserva/<int:reserve_id>/<int:restaurant_id>', methods=['POST'])
-def eliminar_reserva(reserve_id, restaurant_id):
-    # Establecer conexión con la base de datos
-    connection = db.get_connection()
-    cursor = connection.cursor()
-
-    
-
-    # Eliminar la reserva
-    cursor.execute('DELETE FROM reserve WHERE reserve_id = %s', (reserve_id,))
-
-    # Confirmar los cambios en la base de datos
-    connection.commit()
-
-    # Cerrar la conexión
-    cursor.close()
-    connection.close()
-
-    # Redirigir a la página de gestión del restaurante después de eliminar la reserva
-    return redirect(url_for('gestion_restaurant', restaurant_id=restaurant_id))
-
-    
+                           restaurant_id=restaurant_id) 
     
     
 # Ejecutar la aplicación

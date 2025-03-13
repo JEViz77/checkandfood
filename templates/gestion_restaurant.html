@@ -46,13 +46,10 @@
                         <input type="hidden" name="reserve_id" value="{{ reservation.reserve_id }}">
                         <button type="submit" name="action" value="confirm">Confirmar</button>
                         <button type="submit" name="action" value="reject">Rechazar</button>
+                        <button type="submit" name="action" value="delete">Eliminar</button>
 
                     </form>
-                    <form method="POST"
-                        action="{{ url_for('eliminar_reserva', reserve_id=reservation.reserve_id, restaurant_id=restaurant_id) }}">
-                        <button type="submit"
-                            onclick="return confirm('¿Estás seguro de eliminar esta reserva?');">Eliminar</button>
-                    </form>
+                    
                 </td>
                 
 
