@@ -57,11 +57,10 @@ def gestion_restaurant(restaurant_id):
         elif action == 'delete':
             cursor.execute('DELETE FROM reserve WHERE reserve_id = %s', (reserve_id,))
             #recuperar capacidad al rechazar reserva
-            new_capacity = restaurant['capacity'] + dinner_count
+            new_capacity = restaurant['capacity'] + dinner_count 
             cursor.execute('UPDATE restaurant SET capacity = %s WHERE restaurant_id = %s', 
                            (new_capacity, restaurant_id))
-            cursor.execute('UPDATE reserve SET estatus = %s WHERE reserve_id = %s', 
-                           ('rechazada', reserve_id))
+           
             
 
         connection.commit()
