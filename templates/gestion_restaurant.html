@@ -25,10 +25,10 @@
     <table border="1">
         <thead>
             <tr>
-                <th>Fecha</th>
-                <th>Comensales</th>
                 <th>Cliente</th>
                 <th>Teléfono</th>
+                <th>Fecha</th>
+                <th>Comensales</th> 
                 <th>Estatus</th>
                 <th>Acciones</th>
             </tr>
@@ -36,10 +36,10 @@
         <tbody>
             {% for reservation in reservations %}
             <tr>
-                <td>{{ reservation.date }}</td>
-                <td>{{ reservation.dinner }}</td>
                 <td>{{ reservation.customer_name }}</td>
                 <td>{{ reservation.phone_number }}</td>
+                <td>{{ reservation.date }}</td>               
+                <td>{{ reservation.dinner }}</td>
                 <td>{{ reservation.estatus }}</td>
                 <td>
                     <form method="POST">
@@ -48,14 +48,13 @@
                         <button type="submit" name="action" value="reject">Rechazar</button>
 
                     </form>
-                </td>
-                <td>
                     <form method="POST"
                         action="{{ url_for('eliminar_reserva', reserve_id=reservation.reserve_id, restaurant_id=restaurant_id) }}">
                         <button type="submit"
                             onclick="return confirm('¿Estás seguro de eliminar esta reserva?');">Eliminar</button>
                     </form>
                 </td>
+                
 
             </tr>
             {% endfor %}
