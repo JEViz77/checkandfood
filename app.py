@@ -64,19 +64,42 @@ def gestion_restaurant(restaurant_id):
                    'JOIN customer c ON r.customer_id = c.customer_id '
                    'WHERE r.restaurant_id = %s', (restaurant_id,))
     reservations = cursor.fetchall()
-
+    
     cursor.close()
     connection.close()
+    
 
     return render_template('gestion_restaurant.html', 
                            capacity=restaurant['capacity'], 
                            reservations=reservations, 
                            restaurant_id=restaurant_id)
+    
+#eliminar reserva
 
+@app.route('/eliminar_reserva/<int:reserve_id>/<int:restaurant_id>', methods=['POST'])
+def eliminar_reserva(reserve_id, restaurant_id):
+    # Establecer conexión con la base de datos
+    connection = db.get_connection()
+    cursor = connection.cursor()
 
+    
 
+    # Eliminar la reserva
+    cursor.execute('DELETE FROM reserve WHERE reserve_id = %s', (reserve_id,))
 
+    # Confirmar los cambios en la base de datos
+    connection.commit()
 
+    # Cerrar la conexión
+    cursor.close()
+    connection.close()
+
+    # Redirigir a la página de gestión del restaurante después de eliminar la reserva
+    return redirect(url_for('gestion_restaurant', restaurant_id=restaurant_id))
+
+    
+    
+    
 # Ejecutar la aplicación
 if __name__ == '__main__':
     app.run(debug=True, port=80)
