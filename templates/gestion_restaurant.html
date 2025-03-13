@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión del Restaurante</title>
+</head>
+<body>
+    <h1>Gestión del Restaurante</h1>
+
+    <!-- Formulario para actualizar la capacidad -->
+    <h2>Capacidad del Restaurante</h2>
+    <form method="POST">
+        <label for="capacity">Capacidad actual: {{ capacity }}</label><br>
+        <input type="number" name="capacity" value="{{ capacity }}" required>
+        <button type="submit">Actualizar capacidad</button>
+    </form>
+
+    <hr>
+
+    <!-- Tabla para ver y gestionar las reservas -->
+    <h2>Reservas</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Comensales</th>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Estatus</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.date }}</td>
+                    <td>{{ reservation.dinner }}</td>
+                    <td>{{ reservation.customer_name }}</td>
+                    <td>{{ reservation.phone_number }}</td>
+                    <td>{{ reservation.estatus }}</td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="reserve_id" value="{{ reservation.reserve_id }}">
+                            <button type="submit" name="action" value="confirm">Confirmar</button>
+                            <button type="submit" name="action" value="reject">Rechazar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
